@@ -1,0 +1,25 @@
+
+= AppImage for Cantata
+
+Here you will find http://appimage.org/[AppImages] for https://github.com/CDrummond/cantata/[Cantata].
+Please let me know if you have any problems with running Cantata using the AppImages offered on this site: thomas.leitz@web.de.
+
+Cantata is a client for `mpd` (music player daemon). `mpd` is not included in the AppImage for Cantata. If you want to rund `mpd` locally on your system, install it using your package manager.
+
+== Download
+
+* https://bintray.com/unruhschuh/AppImages/Cantata/view#files[Download] the latest AppImage for Cantata
+* Make the AppImage executable, e.g. in the terminal run `chmod a+x Cantata-x.y.z.AppImage`
+
+== How to create an AppImage for Cantata
+
+The AppImage for Cantata is created inside a fresh installation of CentOS 6.7. In order to build the AppImage follow these steps
+
+* Install CentOS 6.7 either on a PC or inside VirtualBox or any other virtualization program. Using 'testappimage' of AppImageKit also works, but there are issues with dbus.
+* Start the Terminal and run `git clone https://github.com/unruhschuh/Cantata.AppImage`
+* Change directory with `cd Cantata.AppImage`
+* Start compilation and packaging process with `./recipe.sh`. This creates `Cantata.AppImage` inside the current directory.
+
+== Known issues
+
+* Cantata is built with the option `-DENABLE_LIBVLC=OFF`, so HTTP stream playback may not work under Linux (see https://github.com/CDrummond/cantata/issues/493).
