@@ -89,7 +89,9 @@ cp $(ldconfig -p | grep libEGL.so.1 | cut -d ">" -f 2 | xargs) $APP_DIR/usr/lib/
 set +e
 ldd $APP_DIR/usr/lib/qt5/plugins/platforms/libqxcb.so | grep "=>" | awk '{print $3}' | xargs -I '{}' cp -v '{}' $APP_DIR/usr/lib
 ldd $APP_DIR/usr/bin/* | grep "=>" | awk '{print $3}' | xargs -I '{}' cp -v '{}' $APP_DIR/usr/lib
-find $APP_DIR/usr/lib -name "*.so*" | xargs ldd | grep "=>" | awk '{print $3}' | xargs -I '{}' cp -v '{}' $APP_DIR/usr/lib
+find $APP_DIR/usr/lib -name "*.so*" | xargs ldd | grep "=>" | awk '{print $3}' | xargs -I '{}' cp -nv '{}' $APP_DIR/usr/lib
+find $APP_DIR/usr/lib -name "*.so*" | xargs ldd | grep "=>" | awk '{print $3}' | xargs -I '{}' cp -nv '{}' $APP_DIR/usr/lib
+find $APP_DIR/usr/lib -name "*.so*" | xargs ldd | grep "=>" | awk '{print $3}' | xargs -I '{}' cp -nv '{}' $APP_DIR/usr/lib
 set -e
 
 # this prevents "symbol lookup error libunity-gtk-module.so: undefined symbol: g_settings_new" on ubuntu 14.04
@@ -105,6 +107,8 @@ rm -f $APP_DIR/usr/lib/libgtk-x11-2.0.so.0 || true # this prevents Gtk-WARNINGS 
 rm -f $APP_DIR/usr/lib/libdbus-1.so.3 || true # this prevents '/var/lib/dbus/machine-id' error on fedora 22/23 live cd
 rm -f $APP_DIR/usr/lib/libGL.so.* || true
 rm -f $APP_DIR/usr/lib/libdrm.so.* || true
+rm -f $APP_DIR/usr/lib/libxcb.so.1 || true
+rm -f $APP_DIR/usr/lib/libX11.so.6 || true
 rm -f $APP_DIR/usr/lib/libcom_err.so.2 || true
 rm -f $APP_DIR/usr/lib/libcrypt.so.1 || true
 rm -f $APP_DIR/usr/lib/libdl.so.2 || true
@@ -144,7 +148,7 @@ rm -f $APP_DIR/usr/lib/libz.so.1 || true
 
 # patch hardcoded '/usr/lib' in binaries away
 find $APP_DIR/usr/ -type f -exec sed -i -e 's|/usr/lib|././/lib|g' {} \;
-find $APP_DIR/usr/ -type f -exec sed -i -e 's|/USR/lib|././/lib|g' {} \;
+find $APP_DIR/usr/ -type f -exec sed -i -e 's|/USR|././|g' {} \;
 
 ######################################################
 # Create AppImage
